@@ -1,0 +1,21 @@
+a{
+    text-decoration:none;}
+
+#srvrs, #list, #chat, #members{
+    float:left;
+    padding:10px;}
+#dataRow:after{
+    content: "";
+    display: table;
+    clear: both;}
+
+#srvrs{
+    width:10%;}
+#list,#members{
+    width:20%;}
+#chat{
+    width:50%;}
+.clink{
+    display:flex;
+    padding-bottom:15px;
+}

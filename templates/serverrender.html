@@ -1,0 +1,21 @@
+<style>
+    .server{width:65px;height:65px;border-radius:50%;padding-bottom:50px}
+    .server>img{max-width:65px;object-fit:scale-down;padding-bottom:10px}
+    .member>img{max-width:35px;max-height:35px;border-radius:50%}
+</style>
+<script type='module'>
+    import{s,r,l,a,o}from'/static/scripts.js';
+    try{
+        const data = await(await fetch(`/generaldata/${window.location.pathname.split('/')[2]}`)).json();
+        const srvrcont={[s]:'{items}'},
+        srvr={[s]:'<a href="/server/{srvr}" class="server"><img src="{icon}" /></a>'},
+        channel={[s]:'<a class="clink" href="{href}">#{name}</a>'},
+        member={[s]:'<div class="member">{content}</div>'},
+        memicon={[s]:'<img src="{href}" class="memicon" />'};
+
+        document.querySelector('#srvrs').append(r({...srvrcont,items:data['srvrs'].map(e=>({...srvr,...e}))}));
+        data['channels'].forEach(c=>{document.querySelector('#list').append(r({...channel,...c,href:`/server/${window.location.pathname.split('/')[2]}/${c.clink}`}))});
+        data['members'].forEach(c=>document.querySelector('#members').append(r({...member,content:{...memicon,href:c.icon}})))
+        document.title = `${[...document.querySelectorAll('.clink')].find(e=>e.href==window.location.href).textContent} - ${data['srvrname']} | Harmony`;
+    }catch(err){alert(`There was an error fetching data, try reloading the page.\n\nError: ${err}`);}
+</script>

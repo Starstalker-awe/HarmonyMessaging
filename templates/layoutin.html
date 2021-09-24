@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+        <link href="/static/styles.css" rel="stylesheet">
+        <link rel="icon" type="image/jpg" href="/static/icon.png">
+        <title>{% block title %}{% endblock %} Harmony</title>
+        {% block head %}{% endblock %}
+    </head>
+    <body>
+        <main class="container p-5">
+            <div id='dataRow'>
+                <div id='srvrs'></div>
+                <div id='list'></div>
+                {% block datarow %}{% endblock %}
+            </div>
+            {% block main %}{% endblock %}
+        </main>
+    </body>
+</html>

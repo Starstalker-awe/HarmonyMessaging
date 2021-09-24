@@ -1,0 +1,73 @@
+{% extends 'layout.html' %}
+{% block title %}Register |{% endblock %}
+{% block head %}
+<style>
+	input{
+		background-color:#393939;
+		border-radius:50px;
+		max-height:100px;
+	}
+</style>
+{% endblock %}
+{% block main %}
+<form action="/register" method="post" id="register">
+	<div class='alert' id='genError'></div>
+	<input type="text" name="name">
+	<input type="email" name="email">
+	<input type="date" name="bday">
+	<div id="username">
+		<tr>
+			<td><input type="text" name="uname"></td>
+			<td id="hashSpace">#</td>
+			<td><input type="number" id="hash" placeholder="0000"></td>
+		</tr>
+		<tr>
+			<td><div class='alert' id='unameError'></div></td>
+			<td></td>
+			<td><div class='alert right' id='hashError'></div></td>
+		</tr>
+	</div>
+	<div id="passwords">
+		<input type="password" name="pass1" placeholder="Enter a password">
+		<input type="password" name="pass2" placeholder="Confirm your password">
+		<div class='alert' id='passError'></div>
+	</div>
+	<input type="text" name="refer" value="{{ referrer }}" id='referrer'>
+	<div class='alert' id='refError'></div>
+</form>
+<script type='module'>
+    $(document).ready(e=>{
+		$('#register').on('submit',e=>{
+			e.preventDefault();
+			$.ajax({
+				type: 'post',
+				url: '/register',
+				data: $('#register').serialize(),
+				success: d=>{
+					for (let e of errors){
+						switch(e){
+							case 'malicious':
+								alert('I know you want to see this whole thing crash and burn, but please stop. I\'m smarter than you think. I also never trust user input, hence why you\'re seeing this message 😊. Now goodbye...');
+								window.close();
+							case 'iR':
+								$('#refError').innerHTML = 'Invalid referral code!';
+							case 'iH':
+								$('#hashError').innerHTML = 'Invalid hash length!';
+							case 'pNM':
+								$('#passError').innerHTML = 'Passwords do not match!';
+							case 'uT':
+								$('#unameError').innerHTML = 'That exact username and has are taken!';
+							case 'aFR':
+								$('#genError').innerHTML = 'All fields are required!';
+								break;
+							default:
+								$('#genError').innerHTML = 'You should be redirected to the main page!';
+								window.location.href = '/';
+						}
+					}
+				}
+			})
+		})
+    })
+</script>
+{% endblock %}
